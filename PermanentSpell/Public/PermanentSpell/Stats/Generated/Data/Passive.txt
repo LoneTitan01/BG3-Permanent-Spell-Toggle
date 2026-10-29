@@ -1,0 +1,12 @@
+// Added to every playable character by ScriptExtender/Lua/BootstrapServer.lua.
+// The toggle only places a hidden marker status; the Lua script does the tracking and restoring.
+
+new entry "PermanentSpell_Toggle"
+type "PassiveData"
+data "DisplayName" "h7f19bceeg046bg467agbcecg67ca2a06a1f8;1"
+data "Description" "h2fc45b6egbb42g49cegb42cge542148fa1f1;1"
+data "Icon" "Skill_Sorcerer_Passive_Metamagic_ExtendedSpell"
+data "Properties" "IsToggled;ToggledDefaultAddToHotbar"
+data "ToggleOnFunctors" "ApplyStatus(PERMANENT_SPELL_ACTIVE,100,-1)"
+data "ToggleOffFunctors" "RemoveStatus(PERMANENT_SPELL_ACTIVE)"
+data "ToggleGroup" "PermanentSpell_Toggle"

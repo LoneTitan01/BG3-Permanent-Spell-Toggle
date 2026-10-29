@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<contentList>
+	<content contentuid="h7f19bceeg046bg467agbcecg67ca2a06a1f8" version="1">Permanent Spell</content>
+	<content contentuid="h2fc45b6egbb42g49cegb42cge542148fa1f1" version="1">While toggled on, spells you cast that last until &lt;LSTag Tooltip="LongRest"&gt;Long Rest&lt;/LSTag&gt; become permanent instead. Anyone affected gets the End Permanent Spells cantrip to remove them. Toggling this off makes your permanent spells last until &lt;LSTag Tooltip="LongRest"&gt;Long Rest&lt;/LSTag&gt; again.</content>
+	<content contentuid="h9e8390aag1aefg421cgb4c4gb6a11a0f5359" version="1">Permanent Spell</content>
+	<content contentuid="h9c1359c9g37e7g4dc4ga98dgfcdaba2806fe" version="1">Spells this character casts that would last until &lt;LSTag Tooltip="LongRest"&gt;Long Rest&lt;/LSTag&gt; are permanent.</content>
+	<content contentuid="h9cd5e670g2a5eg4c2fg8e63gd274aeca9a2f" version="1">End Permanent Spells</content>
+	<content contentuid="he6d4f7a2g3a7bg46a2g82e3g3b0176acef40" version="1">Remove every spell on you that was made permanent by Permanent Spell. Other permanent effects are not affected.</content>
+</contentList>

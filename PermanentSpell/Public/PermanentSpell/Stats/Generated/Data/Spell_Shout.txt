@@ -1,0 +1,20 @@
+// Given by ScriptExtender/Lua/BootstrapServer.lua to characters carrying a Permanent Spell.
+// Casting it makes the Lua script remove that character's PERMSPELL_ statuses only.
+
+new entry "PermanentSpell_EndPermanentSpells"
+type "SpellData"
+using "Shout_Dash"
+data "SpellType" "Shout"
+data "Level" "0"
+data "SpellSchool" "Abjuration"
+data "DisplayName" "h9cd5e670g2a5eg4c2fg8e63gd274aeca9a2f;1"
+data "Description" "he6d4f7a2g3a7bg46a2g82e3g3b0176acef40;1"
+data "DescriptionParams" ""
+data "Icon" "Spell_Abjuration_RemoveCurse"
+data "TargetConditions" "Self()"
+data "SpellProperties" ""
+data "TooltipStatusApply" ""
+data "UseCosts" ""
+data "Cooldown" ""
+data "SpellFlags" "IgnoreSilence"
+data "VerbalIntent" "Utility"

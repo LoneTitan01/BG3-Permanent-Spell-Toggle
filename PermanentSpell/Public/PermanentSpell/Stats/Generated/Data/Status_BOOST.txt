@@ -1,0 +1,10 @@
+// Hidden marker for the Permanent Spell toggle. IgnoreResting keeps it through a long rest.
+
+new entry "PERMANENT_SPELL_ACTIVE"
+type "StatusData"
+data "StatusType" "BOOST"
+data "DisplayName" "h9e8390aag1aefg421cgb4c4gb6a11a0f5359;1"
+data "Description" "h9c1359c9g37e7g4dc4ga98dgfcdaba2806fe;1"
+data "Icon" "Skill_Sorcerer_Passive_Metamagic_ExtendedSpell"
+data "StackId" "PERMANENT_SPELL_ACTIVE"
+data "StatusPropertyFlags" "DisableOverhead;DisableCombatlog;DisablePortraitIndicator;IgnoreResting;ApplyToDead"

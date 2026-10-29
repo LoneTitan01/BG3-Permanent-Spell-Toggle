@@ -1,0 +1,16 @@
+# Settings for build.py. Relative paths are resolved from this file's folder.
+
+# Full path to LSLib's Divine.exe
+divine_path: 'Z:\Personal\LSLib Divine Tool\Tools\Divine.exe'
+
+# Mod source folder (contains Localization/, Mods/, Public/)
+mod_folder: PermanentSpell
+
+# Where the .pak and .zip are written
+output_dir: Packages
+
+# Compression method passed to Divine (none, zlib, zlibfast, lz4, lz4hc, zstd, zstdfast)
+compression: lz4
+
+# Also create a .zip containing the .pak (for mod managers / Nexus uploads)
+create_zip: true
