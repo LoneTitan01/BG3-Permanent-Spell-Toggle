@@ -3,7 +3,8 @@
 -- any Until Long Rest status they put on a party member is swapped for its permanent copy
 -- (PERMSPELL_<status>, see Shared.lua), which long rests do not remove.
 -- Anyone carrying a permanent copy gets the End Permanent Spells cantrip, which removes only those
--- copies. Toggling the passive off turns that caster's copies back into normal Until Long Rest statuses.
+-- copies. The toggle only decides what happens at cast time: switching it on or off never changes
+-- spells that are already active.
 
 Ext.Require("Shared.lua")
 
@@ -147,20 +148,6 @@ local function makePermanent(target, statusId, caster)
     Osi.ApplyStatus(target, copy, -1, 1, caster)
 end
 
--- Turns a caster's permanent spells back into normal Until Long Rest spells.
-local function revertCaster(caster)
-    for _, player in ipairs(players()) do
-        for _, entry in ipairs(statusList(player)) do
-            local original = S.Originals[entry[1]]
-            if original and entry[2] == caster then
-                Osi.RemoveStatus(player, entry[1])
-                Osi.ApplyStatus(player, original, -1, 1, caster)
-            end
-        end
-        refreshCantripSoon(player)
-    end
-end
-
 -- Removes every permanent spell from this mod on the target. Other permanent effects are untouched.
 local function removePermanentSpells(target)
     for _, entry in ipairs(statusList(target)) do
@@ -169,19 +156,20 @@ local function removePermanentSpells(target)
     refreshCantripSoon(target)
 end
 
--- Converts spells that were already active before the toggle was turned on.
-local function scanTarget(target)
-    for _, entry in ipairs(statusList(target)) do
-        local caster = entry[2]
-        if caster and isToggled(caster) and qualifies(target, entry[1]) then
-            makePermanent(target, entry[1], caster)
+-- Saves from the old restore-after-rest version listed spells cast with the toggle on.
+-- Make those permanent once, then forget the list.
+local function migrateOldRecords()
+    local vars = Ext.Vars.GetModVariables(ModuleUUID)
+    local old = vars.Records
+    if type(old) ~= "table" then return end
+    for target, statuses in pairs(old) do
+        if Ext.Entity.Get(target) then
+            for statusId, caster in pairs(statuses) do
+                if Osi.HasActiveStatus(target, statusId) == 1 then makePermanent(target, statusId, caster) end
+            end
         end
     end
-    refreshCantripSoon(target)
-end
-
-local function scanParty()
-    for _, player in ipairs(players()) do scanTarget(player) end
+    vars.Records = nil
 end
 
 local function ensurePassive(character)
@@ -197,8 +185,8 @@ Ext.Osiris.RegisterListener("LevelGameplayStarted", 2, "after", function()
     Ext.Timer.WaitFor(500, function()
         S.EnsureCopies()
         for _, player in ipairs(players()) do ensurePassive(player) end
-        Ext.Vars.GetModVariables(ModuleUUID).Records = nil
-        scanParty()
+        migrateOldRecords()
+        for _, player in ipairs(players()) do refreshCantripSoon(player) end
     end)
 end)
 
@@ -222,10 +210,7 @@ end)
 Ext.Osiris.RegisterListener("StatusApplied", 4, "after", function(object, statusId, causee, _)
     local target = uuid(object)
     if not target then return end
-    if statusId == MARKER then
-        scanParty()
-        return
-    end
+    if statusId == MARKER then return end
     S.EnsureCopies()
     if S.Originals[statusId] then
         refreshCantripSoon(target)
@@ -240,18 +225,7 @@ end)
 
 Ext.Osiris.RegisterListener("StatusRemoved", 4, "after", function(object, statusId, _, _)
     local target = uuid(object)
-    if not target then return end
-    if S.Originals[statusId] then
-        refreshCantripSoon(target)
-        return
-    end
-    if statusId ~= MARKER then return end
-    -- Read the toggle a moment later, once the passive has finished switching off.
-    Ext.Timer.WaitFor(100, function()
-        if Osi.HasActiveStatus(target, MARKER) ~= 1 and passiveToggledOn(target) ~= true then
-            revertCaster(target)
-        end
-    end)
+    if target and S.Originals[statusId] then refreshCantripSoon(target) end
 end)
 
 Ext.Osiris.RegisterListener("CastedSpell", 5, "after", function(caster, spell, _, _, _)

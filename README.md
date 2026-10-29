@@ -6,8 +6,7 @@ A Baldur's Gate 3 mod that gives every party member a toggleable **Permanent Spe
 
 - **Permanent Spell toggle:** added automatically to every playable character. While it's on, Until Long Rest spells you cast (Mage Armor, Aid, Longstrider and so on) don't end on a long rest.
 - **End Permanent Spells cantrip:** given to any character carrying a permanent spell from this mod. Casting it removes those spells from yourself. Permanent effects from the base game or other mods are not touched. The cantrip costs nothing and disappears once you have no permanent spells left.
-- **Toggling off:** turns the caster's permanent spells back into normal Until Long Rest spells, so they end on your next long rest.
-- **Spells already active:** turning the toggle on also makes Until Long Rest spells that caster has already cast on the party permanent.
+- **Only affects new casts:** the toggle decides what happens when you cast. Turning it on doesn't make spells you already cast permanent, and turning it off doesn't end permanent spells you already have. Use the cantrip to remove those.
 
 Only non-concentration spells that last Until Long Rest are affected. Spells from other mods are supported if they follow the same pattern.
 
@@ -21,11 +20,11 @@ Only non-concentration spells that last Until Long Rest are affected. Spells fro
 2. Install `PermanentSpell.zip` with your mod manager (Vortex or BG3 Mod Manager), or put `PermanentSpell.pak` in `%LOCALAPPDATA%\Larian Studios\Baldur's Gate 3\Mods`.
 3. Enable the mod in your load order.
 
-You can add it to an existing save. To uninstall, toggle Permanent Spell off on every character, or cast End Permanent Spells, and save before removing the mod.
+You can add it to an existing save. To uninstall, cast End Permanent Spells on every character that has it, then save before removing the mod.
 
 ## How it works
 
-When the game loads, the mod makes a copy of every Until Long Rest spell status, named `PERMSPELL_<original name>`, and marks the copy to survive long rests. When a character with the toggle on casts one of these spells on a party member, the mod swaps the normal status for its permanent copy. The cantrip and the toggle only ever touch `PERMSPELL_` statuses.
+When the game loads, the mod makes a copy of every Until Long Rest spell status, named `PERMSPELL_<original name>`, and marks the copy to survive long rests. When a character with the toggle on casts one of these spells on a party member, the mod swaps the normal status for its permanent copy. The cantrip only ever removes `PERMSPELL_` statuses.
 
 ## Known limitations
 
